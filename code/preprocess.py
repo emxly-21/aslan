@@ -3,23 +3,6 @@ from csv import reader
 import numpy as np
 
 
-
-## 28x28 pixel images
-## 27455 samples
-
-## returns 
-
-
-#  def get_csv_length(file_path): 
-#      with open(file_path, 'r') as read_obj:
-
-#          csv_data = reader(read_obj)
-#          print(len(list(csv_data)))
-#      return
-
-#  get_csv_length('../data/sign_mnist_train.csv')
-#  get_csv_length('../data/sign_mnist_test.csv')
-
 def get_data(file_path): 
     """
     Returns two numpy arrays, 
