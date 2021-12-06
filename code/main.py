@@ -14,10 +14,9 @@ def train(model, train_inputs, train_labels):
     accuracy = 0
     batch = 0
     losses = []
-    print(f'{len(shuffled_inputs) // model.batch_size} Batches')
     while batch < len(shuffled_inputs):
         flipped = shuffled_inputs[batch:batch + model.batch_size]
-        one_hot_labels = tf.one_hot(tf.cast(shuffled_labels[batch:batch + model.batch_size], tf.uint8), 24, axis=1)
+        one_hot_labels = tf.one_hot(tf.cast(shuffled_labels[batch:batch + model.batch_size], tf.uint8), 26, axis=1)
         with tf.GradientTape() as tape:
             predictions = model.call(flipped)
             loss = model.loss(predictions, one_hot_labels)
@@ -28,7 +27,7 @@ def train(model, train_inputs, train_labels):
 
         print(f'Loss: {str(loss.numpy())}', end='\r')
         losses.append(loss)
-    visualize_loss(losses)
+    return losses
 
 
 def test(model, test_inputs, test_labels):
@@ -36,7 +35,7 @@ def test(model, test_inputs, test_labels):
     batch = 0
     while batch < len(test_inputs):
         logits = model.call(test_inputs[batch:batch+model.batch_size])
-        one_hot_labels = tf.one_hot(tf.cast(test_labels[batch:batch + model.batch_size], tf.uint8), 24, axis=1)
+        one_hot_labels = tf.one_hot(tf.cast(test_labels[batch:batch + model.batch_size], tf.uint8), 26, axis=1)
         accuracy += model.accuracy(logits, one_hot_labels)
         batch += model.batch_size
     return accuracy / len(test_inputs) * model.batch_size
@@ -55,5 +54,14 @@ if __name__ == '__main__':
     train_inputs, train_labels = get_data("../data/sign_mnist_train.csv")
     test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
 
-    train(model, train_inputs, train_labels)
+    losses = []
+    for epoch in range(20):
+        print(f'Epoch {epoch + 1}:')
+        out = train(model, train_inputs, train_labels)
+        losses += out
+        print(f'\nTest Accuracy: {test(model, test_inputs, test_labels).numpy()}')
+
+    visualize_loss(losses)
     print(f'Test Accuracy: {test(model, test_inputs, test_labels).numpy()}')
+
+    model.save('../model/')

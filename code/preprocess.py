@@ -42,7 +42,7 @@ def get_data(file_path):
             
             count += 1
 
-    return inputsVector, labelsVector
+    return inputsVector / 256, labelsVector
 
 
 def image_to_np_array(file_path): 
