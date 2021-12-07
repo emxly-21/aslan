@@ -9,7 +9,11 @@ class Model(tf.keras.Model):
     def __init__(self):
         super(Model, self).__init__()
         self.batch_size = 100
-        self.optimizer = tf.keras.optimizers.Adam()
+        self.lrdecay = tf.keras.optimizers.schedules.ExponentialDecay(
+            initial_learning_rate=1e-3,
+            decay_steps=10000,
+            decay_rate=0.95)
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate=self.lrdecay)
         self.model = Sequential()
 
         # ScienceDirect Implementation

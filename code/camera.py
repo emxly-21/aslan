@@ -30,7 +30,7 @@ def handle_frame(frame):
     #  print("logits.shape: ", logits.shape)
     print(output)
 
-    letter = LETTERS[output]
+    letter = LETTERS[output + 1]
     cv.rectangle(frame,(frame_x_start,frame_y_start),(frame_x_end,frame_y_end),(0,255,0),3)
     cv.putText(frame, letter, (50,500), cv.FONT_HERSHEY_SIMPLEX, 4, (0,0,255), 2, cv.LINE_AA)
 

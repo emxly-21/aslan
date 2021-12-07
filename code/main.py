@@ -14,6 +14,7 @@ def train(model, train_inputs, train_labels):
     accuracy = 0
     batch = 0
     losses = []
+    accuracies = []
     while batch < len(shuffled_inputs):
         flipped = shuffled_inputs[batch:batch + model.batch_size]
         one_hot_labels = tf.one_hot(tf.cast(shuffled_labels[batch:batch + model.batch_size], tf.uint8), 26, axis=1)
@@ -27,7 +28,9 @@ def train(model, train_inputs, train_labels):
 
         print(f'Loss: {str(loss.numpy())}', end='\r')
         losses.append(loss)
-    return losses
+        accuracies.append(accuracy)
+
+    return losses, accuracies
 
 
 def test(model, test_inputs, test_labels):
@@ -48,20 +51,48 @@ def visualize_loss(losses):
     plt.ylabel('Loss')
     plt.show()
 
+def visualize_accuracy1(losses): 
+    x = [i for i in range(len(losses))]
+    plt.plot(x, losses)
+    plt.title('Train Accuracy per batch')
+    plt.xlabel('Batch')
+    plt.ylabel('Accuracy')
+    plt.show()
+
+def visualize_accuracy2(losses): 
+    x = [i for i in range(len(losses))]
+    plt.plot(x, losses)
+    plt.title('Test Accuracy per Epoch')
+    plt.xlabel('Batch')
+    plt.ylabel('Accuracy')
+    plt.show()
+
 if __name__ == '__main__':
     model = Model()
 
-    train_inputs, train_labels = get_data("../data/sign_mnist_train.csv")
-    test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
+    # First dataset
+    #train_inputs, train_labels = get_data("../data/sign_mnist_train.csv")
+    #test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
+
+    # Second dataset
+    train_inputs, train_labels = get_data_2()
+    #test_inputs, test_labels = get_data_2()
 
     losses = []
-    for epoch in range(20):
+    train_accuracies = []
+    test_accuracies = []
+    for epoch in range(15):
         print(f'Epoch {epoch + 1}:')
-        out = train(model, train_inputs, train_labels)
-        losses += out
-        print(f'\nTest Accuracy: {test(model, test_inputs, test_labels).numpy()}')
+        loss, acc = train(model, train_inputs, train_labels)
+        losses += loss
+        train_accuracies += acc
+        test_accuracy = test(model, test_inputs, test_labels).numpy()
+        test_accuracies.append(test_accuracy)
+        print(f'\nTest Accuracy: {test_accuracy}')
 
     visualize_loss(losses)
+    visualize_accuracy1(train_accuracies)
+    visualize_accuracy2(test_accuracies)
     print(f'Test Accuracy: {test(model, test_inputs, test_labels).numpy()}')
 
     model.model.save('../model/')

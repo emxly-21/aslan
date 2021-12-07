@@ -47,6 +47,7 @@ def get_data(file_path):
 
 def image_to_np_array(file_path): 
     image = Image.open(file_path).convert('L') # convert to grayscale
+    image = image.resize((28, 28), resample=Image.BICUBIC)
     data = np.asarray(image)
     return data
 
@@ -68,7 +69,8 @@ def get_data_2():
     Images have varying widths and heights
     """
 
-    datasets = ['A/', 'B/']
+    datasets = ['A/']
+    #  datasets = ['A/', 'B/']
     #  datasets = ['A/', 'B/', 'C/', 'D/', 'E/']
 
     inputsVector = []
@@ -90,6 +92,7 @@ def get_data_2():
                     #  print(a_file_path + a_file)
                     data = image_to_np_array(a_file_path + a_file)
 
+
                     inputsVector.append(data)
                     labelsVector.append(letter_index)
 
@@ -99,8 +102,8 @@ def get_data_2():
                     counter += 1
         print("letter ", letter, " has ", counter)
 
-    inputsVector = np.array(inputsVector)
-    labelsVector = np.array(labelsVector)
+    inputsVector = np.stack(inputsVector, axis=0).astype(np.float32) / 256
+    labelsVector = np.stack(labelsVector, axis=0)
     #  print(inputsVector)
     #  print(labelsVector)
 
