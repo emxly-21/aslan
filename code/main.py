@@ -46,7 +46,7 @@ def visualize_loss(losses):
     plt.title('Loss per batch')
     plt.xlabel('Batch')
     plt.ylabel('Loss')
-    plt.show()  
+    plt.show()
 
 if __name__ == '__main__':
     model = Model()
@@ -64,4 +64,4 @@ if __name__ == '__main__':
     visualize_loss(losses)
     print(f'Test Accuracy: {test(model, test_inputs, test_labels).numpy()}')
 
-    model.save('../model/')
+    model.model.save('../model/')

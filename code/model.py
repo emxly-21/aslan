@@ -9,13 +9,13 @@ class Model(tf.keras.Model):
     def __init__(self):
         super(Model, self).__init__()
         self.batch_size = 100
-        #self.optimizer = tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.90)
         self.optimizer = tf.keras.optimizers.Adam()
         self.model = Sequential()
 
         # ScienceDirect Implementation
         
-        '''self.model.add(Reshape((28, 28, 1)))
+        '''self.model.build((28, 28))
+        self.model.add(Reshape((28, 28, 1), input_shape=(28, 28)))
         self.model.add(Conv2D(8, 19, activation='relu', padding='same'))
         self.model.add(MaxPooling2D(pool_size=(2,2), strides=(3,3)))
         self.model.add(Conv2D(16, 17, activation='relu', padding='same'))
