@@ -21,10 +21,12 @@ def handle_frame(frame):
     #  cropped_frame = frame[frame_x_start:frame_x_end, frame_y_start:frame_y_end, :]
     cropped_frame = frame[frame_y_start:frame_y_end, frame_x_start:frame_x_end, :]
     gray = cv.cvtColor(cropped_frame, cv.COLOR_BGR2GRAY)
-    cv.imshow('gray', gray)
     gray = cv.resize(gray, (mnist_dimensions, mnist_dimensions))
+    grayPixelated = cv.resize(gray, (sample_dimensions, sample_dimensions))
+    cv.imshow('grayPixelated', grayPixelated)
     gray = np.reshape(gray, (1, mnist_dimensions, mnist_dimensions))
-    cv.imshow('gray changed', gray[0])
+    #  gray = np.reshape(gray, (1, mnist_dimensions * mnist_dimensions))
+    #  cv.imshow('gray changed', gray[0])
     gray = gray / 255
 
     # run gray through the recognizer
@@ -32,24 +34,38 @@ def handle_frame(frame):
     #  output = tf.argmax(logits, 1)
     print("logits: ", logits)
     output = tf.nn.top_k(logits, 5, sorted=True)
-    print("output: ", output)
-    outputProbabilities = output.numpy()
-    outputValues = output.numpy()
+    #  print("output: ", output)
+    outputProbabilities = output[0].numpy()[0]
+    outputValues = output[1].numpy()[0]
     #  output = np.asarray(output)
     #  output = str(outputValues)
     #  output = output.numpy()[0]
-    print(output)
+    #  print(outputValues)
+    print("outputProbabilities: ", outputProbabilities)
+    print("outputValues: ", outputValues)
 
-    letter = LETTERS[output + 1]
+    text = ""
+    if outputProbabilities.max() < MIN_ACCURACY_THRESHOLD: 
+        text = "Letter Unrecognized"
+    else: 
+        for i in range(5): 
+            prob = outputProbabilities[i]
+            if (prob < MIN_ACCURACY_THRESHOLD): 
+                continue
+            value = outputValues[i]
+            letter = LETTERS[value + 1]
+            percentage = "{:.0%}".format(prob)
+            text += "(" + letter +  ", " + percentage + ")  "
+
     cv.rectangle(frame,(frame_x_start,frame_y_start),(frame_x_end,frame_y_end),(0,255,0),3)
-    cv.putText(frame, letter, (50,500), cv.FONT_HERSHEY_SIMPLEX, 4, (0,0,255), 2, cv.LINE_AA)
+    cv.putText(frame, text, (50,500), cv.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv.LINE_AA)
 
     # Display the resulting frame
     cv.imshow('frame', frame)
 
 
 if __name__ == '__main__':
-    aslan_model = tf.keras.models.load_model('../model_kaggle/')
+    aslan_model = tf.keras.models.load_model('../model/')
 
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
@@ -65,8 +81,8 @@ if __name__ == '__main__':
 
         handle_frame(frame)
 
-        if cv.waitKey(200) == ord('q'):
-        #  if cv.waitKey(1000) == ord('q'):
+        #  if cv.waitKey(200) == ord('q'):
+        if cv.waitKey(1000) == ord('q'):
             break
 
     # When everything done, release the capture
