@@ -1,6 +1,6 @@
 
 mnist_dimensions = 28
-sample_dimensions = mnist_dimensions * 10
+sample_dimensions = mnist_dimensions * 14
 
 # include j and z to prevent crashes
 LETTERS = { 1: "a", 2: "b", 3: "c", 4: "d", 5: "e", 6: "f", 7: "g", 8: "h",
