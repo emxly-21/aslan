@@ -102,4 +102,4 @@ if __name__ == '__main__':
     visualize_accuracy2(test_accuracies)
     print(f'Test Accuracy: {test(model, test_inputs, test_labels).numpy()}')
 
-    model.model.save('../model/')
+    model.model.save('../model_100/')

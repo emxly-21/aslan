@@ -28,7 +28,7 @@ def handle_frame(frame):
     gray = gray / 255
 
     # run gray through the recognizer
-    logits = aslan_model.predict(gray / 255)
+    logits = aslan_model.predict(gray)
     output = tf.argmax(logits, 1)
     #  output = str(output.numpy()[0])
     output = output.numpy()[0]
@@ -46,7 +46,7 @@ def handle_frame(frame):
 
 
 if __name__ == '__main__':
-    aslan_model = tf.keras.models.load_model('../model/')
+    aslan_model = tf.keras.models.load_model('../model_kaggle/')
 
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
