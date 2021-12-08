@@ -10,16 +10,22 @@ def handle_frame(frame):
 
     # get the center 28 by 28 pixels
     height, width = frame.shape[:2]
-    frame_x_start = width // 2 - (sample_dimensions // 2)
-    frame_x_end = frame_x_start + sample_dimensions
-    frame_y_start = height // 2 - (sample_dimensions // 2)
-    frame_y_end = frame_y_start + sample_dimensions
+
+    offset = 0
+    frame_x_start = width // 2 - (sample_dimensions // 2) + offset
+    frame_x_end = frame_x_start + sample_dimensions + offset
+    frame_y_start = height // 2 - (sample_dimensions // 2) + offset
+    frame_y_end = frame_y_start + sample_dimensions + offset
 
     #  print(frame.shape)
-    cropped_frame = frame[frame_x_start:frame_x_end, frame_y_start:frame_y_end, :]
+    #  cropped_frame = frame[frame_x_start:frame_x_end, frame_y_start:frame_y_end, :]
+    cropped_frame = frame[frame_y_start:frame_y_end, frame_x_start:frame_x_end, :]
     gray = cv.cvtColor(cropped_frame, cv.COLOR_BGR2GRAY)
+    cv.imshow('gray', gray)
     gray = cv.resize(gray, (mnist_dimensions, mnist_dimensions))
-    gray = np.reshape(gray, (1, mnist_dimensions * mnist_dimensions))
+    gray = np.reshape(gray, (1, mnist_dimensions, mnist_dimensions))
+    cv.imshow('gray changed', gray[0])
+    gray = gray / 255
 
     # run gray through the recognizer
     logits = aslan_model.predict(gray)
@@ -32,6 +38,7 @@ def handle_frame(frame):
 
     letter = LETTERS[output + 1]
     cv.rectangle(frame,(frame_x_start,frame_y_start),(frame_x_end,frame_y_end),(0,255,0),3)
+    #  cv.rectangle(frame,(frame_y_start, frame_x_start),(frame_y_end, frame_x_end),(0,255,0),3)
     cv.putText(frame, letter, (50,500), cv.FONT_HERSHEY_SIMPLEX, 4, (0,0,255), 2, cv.LINE_AA)
 
     # Display the resulting frame
@@ -56,6 +63,7 @@ if __name__ == '__main__':
         handle_frame(frame)
 
         if cv.waitKey(200) == ord('q'):
+        #  if cv.waitKey(1000) == ord('q'):
             break
 
     # When everything done, release the capture
