@@ -27,7 +27,7 @@ def get_data(file_path):
         csv_data = list(reader(file))
 
         num_samples = len(csv_data)
-        inputsVector = np.empty([num_samples, 784])
+        inputsVector = np.empty([num_samples, 100 * 100])
         labelsVector = np.empty([num_samples])
         is_header = True
 
@@ -70,7 +70,7 @@ def get_data_2():
     """
 
     #  datasets = ['A/', 'B/']
-    datasets = ['A/', 'B/', 'C/', 'D/', 'E/']
+    datasets = ['A/']#, 'B/', 'C/', 'D/', 'E/']
 
     inputsVector = []
     labelsVector = []
