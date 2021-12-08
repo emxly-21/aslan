@@ -29,16 +29,19 @@ def handle_frame(frame):
 
     # run gray through the recognizer
     logits = aslan_model.predict(gray)
-    output = tf.argmax(logits, 1)
-    #  output = str(output.numpy()[0])
-    output = output.numpy()[0]
-    #  print(logits)
-    #  print("logits.shape: ", logits.shape)
+    #  output = tf.argmax(logits, 1)
+    print("logits: ", logits)
+    output = tf.nn.top_k(logits, 5, sorted=True)
+    print("output: ", output)
+    outputProbabilities = output.numpy()
+    outputValues = output.numpy()
+    #  output = np.asarray(output)
+    #  output = str(outputValues)
+    #  output = output.numpy()[0]
     print(output)
 
     letter = LETTERS[output + 1]
     cv.rectangle(frame,(frame_x_start,frame_y_start),(frame_x_end,frame_y_end),(0,255,0),3)
-    #  cv.rectangle(frame,(frame_y_start, frame_x_start),(frame_y_end, frame_x_end),(0,255,0),3)
     cv.putText(frame, letter, (50,500), cv.FONT_HERSHEY_SIMPLEX, 4, (0,0,255), 2, cv.LINE_AA)
 
     # Display the resulting frame
