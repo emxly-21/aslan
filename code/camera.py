@@ -18,11 +18,12 @@ def handle_frame(frame):
     #  print(frame.shape)
     cropped_frame = frame[frame_x_start:frame_x_end, frame_y_start:frame_y_end, :]
     gray = cv.cvtColor(cropped_frame, cv.COLOR_BGR2GRAY)
+    cv.imshow('gray', gray)
     gray = cv.resize(gray, (mnist_dimensions, mnist_dimensions))
     gray = np.reshape(gray, (1, mnist_dimensions * mnist_dimensions))
 
     # run gray through the recognizer
-    logits = aslan_model.predict(gray)
+    logits = aslan_model.predict(gray / 255)
     output = tf.argmax(logits, 1)
     #  output = str(output.numpy()[0])
     output = output.numpy()[0]

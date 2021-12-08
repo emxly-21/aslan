@@ -57,6 +57,5 @@ class Model(tf.keras.Model):
         correct_predictions = tf.equal(tf.argmax(logits, 1), tf.argmax(labels, 1))
         return tf.reduce_mean(tf.cast(correct_predictions, tf.float32))
 
-
     def loss(self, logits, labels):
         return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels, logits))
