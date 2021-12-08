@@ -17,32 +17,22 @@ def handle_frame(frame):
     frame_y_start = height // 2 - (sample_dimensions // 2) + offset
     frame_y_end = frame_y_start + sample_dimensions + offset
 
-    #  print(frame.shape)
-    #  cropped_frame = frame[frame_x_start:frame_x_end, frame_y_start:frame_y_end, :]
     cropped_frame = frame[frame_y_start:frame_y_end, frame_x_start:frame_x_end, :]
     gray = cv.cvtColor(cropped_frame, cv.COLOR_BGR2GRAY)
     gray = cv.resize(gray, (mnist_dimensions, mnist_dimensions))
     grayPixelated = cv.resize(gray, (sample_dimensions, sample_dimensions))
     cv.imshow('grayPixelated', grayPixelated)
     gray = np.reshape(gray, (1, mnist_dimensions, mnist_dimensions))
-    #  gray = np.reshape(gray, (1, mnist_dimensions * mnist_dimensions))
-    #  cv.imshow('gray changed', gray[0])
     gray = gray / 255
 
     # run gray through the recognizer
     logits = aslan_model.predict(gray)
-    #  output = tf.argmax(logits, 1)
-    print("logits: ", logits)
     output = tf.nn.top_k(logits, 5, sorted=True)
-    #  print("output: ", output)
     outputProbabilities = output[0].numpy()[0]
     outputValues = output[1].numpy()[0]
-    #  output = np.asarray(output)
-    #  output = str(outputValues)
-    #  output = output.numpy()[0]
-    #  print(outputValues)
-    print("outputProbabilities: ", outputProbabilities)
-    print("outputValues: ", outputValues)
+
+    #  print("outputProbabilities: ", outputProbabilities)
+    #  print("outputValues: ", outputValues)
 
     text = ""
     if outputProbabilities.max() < MIN_ACCURACY_THRESHOLD: 

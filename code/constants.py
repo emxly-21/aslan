@@ -1,7 +1,10 @@
 
+cur_letter = "a"
+project_dir = "/Users/kevinhsu/Data/CompSci/projects/2k21/aslan/"
+sample_interval = 500
+
 mnist_dimensions = 28
 sample_dimensions = mnist_dimensions * 14
-
 MIN_ACCURACY_THRESHOLD = 0.001
 
 # include j and z to prevent crashes
