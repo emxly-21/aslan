@@ -15,6 +15,7 @@ def train(model, train_inputs, train_labels):
     batch = 0
     losses = []
     accuracies = []
+    print(len(shuffled_inputs))
     while batch < len(shuffled_inputs):
         flipped = shuffled_inputs[batch:batch + model.batch_size]
         one_hot_labels = tf.one_hot(tf.cast(shuffled_labels[batch:batch + model.batch_size], tf.uint8), 26, axis=1)
@@ -75,13 +76,20 @@ if __name__ == '__main__':
     #test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
 
     # Second dataset
-    train_inputs, train_labels = get_data_2()
-    #test_inputs, test_labels = get_data_2()
+    inputs, labels = get_data_2()
+    indices = tf.random.shuffle(np.arange(len(inputs)))
+    shuffled_inputs = tf.gather(inputs, indices)
+    shuffled_labels = tf.gather(labels, indices)
+
+    train_inputs = shuffled_inputs[:-2000]
+    train_labels = shuffled_labels[:-2000]
+    test_inputs = shuffled_inputs[-2000:]
+    test_labels = shuffled_labels[-2000:]
 
     losses = []
     train_accuracies = []
     test_accuracies = []
-    for epoch in range(15):
+    for epoch in range(20):
         print(f'Epoch {epoch + 1}:')
         loss, acc = train(model, train_inputs, train_labels)
         losses += loss

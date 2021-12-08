@@ -69,9 +69,8 @@ def get_data_2():
     Images have varying widths and heights
     """
 
-    datasets = ['A/']
     #  datasets = ['A/', 'B/']
-    #  datasets = ['A/', 'B/', 'C/', 'D/', 'E/']
+    datasets = ['A/', 'B/', 'C/', 'D/', 'E/']
 
     inputsVector = []
     labelsVector = []
@@ -91,7 +90,6 @@ def get_data_2():
                 if a_file.startswith("color_"): 
                     #  print(a_file_path + a_file)
                     data = image_to_np_array(a_file_path + a_file)
-
 
                     inputsVector.append(data)
                     labelsVector.append(letter_index)
