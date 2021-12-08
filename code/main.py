@@ -15,7 +15,6 @@ def train(model, train_inputs, train_labels):
     batch = 0
     losses = []
     accuracies = []
-    print(len(shuffled_inputs))
     while batch < len(shuffled_inputs):
         flipped = shuffled_inputs[batch:batch + model.batch_size]
         one_hot_labels = tf.one_hot(tf.cast(shuffled_labels[batch:batch + model.batch_size], tf.uint8), 26, axis=1)
@@ -93,7 +92,7 @@ if __name__ == '__main__':
         print(f'Epoch {epoch + 1}:')
         loss, acc = train(model, train_inputs, train_labels)
         losses += loss
-        train_accuracies += acc
+        train_accuracies += [acc]
         test_accuracy = test(model, test_inputs, test_labels).numpy()
         test_accuracies.append(test_accuracy)
         print(f'\nTest Accuracy: {test_accuracy}')
@@ -103,4 +102,4 @@ if __name__ == '__main__':
     visualize_accuracy2(test_accuracies)
     print(f'Test Accuracy: {test(model, test_inputs, test_labels).numpy()}')
 
-    model.model.save('../model/')
+    model.model.save('../model_100/')

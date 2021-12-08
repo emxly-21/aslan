@@ -32,9 +32,9 @@ class Model(tf.keras.Model):
         
 
         # TowardsDataScience Implementation
-        self.model.add(Reshape((28, 28, 1)))
+        self.model.add(Reshape((100, 100, 1)))
 
-        self.model.add(Conv2D(64, (3, 3), activation="relu", input_shape=(28, 28, 1)))
+        self.model.add(Conv2D(64, (3, 3), activation="relu"))
         self.model.add(BatchNormalization())
         self.model.add(MaxPooling2D(2, 2))
 
@@ -56,7 +56,6 @@ class Model(tf.keras.Model):
     def accuracy(self, logits, labels):
         correct_predictions = tf.equal(tf.argmax(logits, 1), tf.argmax(labels, 1))
         return tf.reduce_mean(tf.cast(correct_predictions, tf.float32))
-
 
     def loss(self, logits, labels):
         return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels, logits))

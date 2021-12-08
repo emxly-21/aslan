@@ -42,12 +42,12 @@ def get_data(file_path):
             
             count += 1
 
-    return inputsVector / 256, labelsVector
+    return inputsVector / 255, labelsVector
 
 
 def image_to_np_array(file_path): 
     image = Image.open(file_path).convert('L') # convert to grayscale
-    image = image.resize((28, 28), resample=Image.BICUBIC)
+    image = image.resize((100, 100), resample=Image.BICUBIC)
     data = np.asarray(image)
     return data
 
@@ -100,7 +100,7 @@ def get_data_2():
                     counter += 1
         print("letter ", letter, " has ", counter)
 
-    inputsVector = np.stack(inputsVector, axis=0).astype(np.float32) / 256
+    inputsVector = np.stack(inputsVector, axis=0).astype(np.float32) / 255
     labelsVector = np.stack(labelsVector, axis=0)
     #  print(inputsVector)
     #  print(labelsVector)

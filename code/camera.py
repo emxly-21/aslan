@@ -49,7 +49,7 @@ def handle_frame(frame):
 
 
 if __name__ == '__main__':
-    aslan_model = tf.keras.models.load_model('../model/')
+    aslan_model = tf.keras.models.load_model('../model_kaggle/')
 
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
