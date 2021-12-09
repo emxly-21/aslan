@@ -75,7 +75,7 @@ if __name__ == '__main__':
     #test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
 
     # Second dataset
-    inputs, labels = get_data_2()
+    inputs, labels = get_data_3()
     indices = tf.random.shuffle(np.arange(len(inputs)))
     shuffled_inputs = tf.gather(inputs, indices)
     shuffled_labels = tf.gather(labels, indices)
