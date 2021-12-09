@@ -20,7 +20,7 @@ def handle_frame(frame):
 
     cropped_frame = frame[frame_y_start:frame_y_end, frame_x_start:frame_x_end, :]
     gray = cv.cvtColor(cropped_frame, cv.COLOR_BGR2GRAY)
-    small_cropped_frame = cv.resize(gray, (mnist_dimensions, mnist_dimensions), resample=Image.BICUBIC)
+    small_cropped_frame = cv.resize(gray, (mnist_dimensions, mnist_dimensions))
 
     cv.imshow('small_cropped_frame', small_cropped_frame)
 
