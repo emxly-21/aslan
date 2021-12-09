@@ -1,7 +1,7 @@
 
-cur_letter = "a"
-project_dir = "/Users/kevinhsu/Data/CompSci/projects/2k21/aslan/"
-sample_interval = 500
+cur_letter = "c"
+project_dir = "/Users/em/2021-2022/F21/CSCI 1470/aslan/"
+sample_interval = 250
 
 mnist_dimensions = 28
 sample_dimensions = mnist_dimensions * 14
