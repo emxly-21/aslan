@@ -8,7 +8,7 @@ tf.keras.backend.set_floatx('float64')
 class Model(tf.keras.Model):
     def __init__(self):
         super(Model, self).__init__()
-        self.batch_size = 1000
+        self.batch_size = 100
         self.lrdecay = tf.keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-3,
             decay_steps=10000,
