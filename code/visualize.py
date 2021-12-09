@@ -20,8 +20,7 @@ def visualize_results(image_inputs, probabilities, image_labels):
     """
     images = np.reshape(image_inputs, (-1, 28, 28))
     num_images = images.shape[0]
-    print(num_images)
-    predicted_labels = np.argmax(probabilities, axis=1)
+    predicted_labels = np.argmax(np.asarray(probabilities).reshape(10, 26), axis=1)
 
     predicted_letters = []
     image_letters = []
@@ -41,16 +40,17 @@ def visualize_results(image_inputs, probabilities, image_labels):
     plt.show()
 
 
-aslan_kaggle_model = tf.keras.models.load_model('../model_kaggle/')
-kaggle_input, kaggle_labels = get_data("../data/sign_mnist_test.csv")
-kaggle_probs = aslan_kaggle_model.predict(kaggle_input)
+# aslan_kaggle_model = tf.keras.models.load_model('../model_kaggle/')
+# kaggle_input, kaggle_labels = get_data("../data/sign_mnist_test.csv")
+# kaggle_probs = aslan_kaggle_model.predict(kaggle_input)
 
-visualize_results(kaggle_input[:10], kaggle_probs[:10], kaggle_labels[:10])
+# visualize_results(kaggle_input[:10], kaggle_probs[:10], kaggle_labels[:10])
 
-# aslan_model = tf.keras.models.load_model('../model/')
-# model_input, model_labels = get_data_2()
-# model_probs = []
-# for i in range(10):
-#     model_probs.append(aslan_model.predict(model_input[i]))
+aslan_model = tf.keras.models.load_model('../model/')
+model_input, model_labels = get_data_2()
+indices = tf.random.shuffle(np.arange(len(model_input)))
+shuffled_inputs = tf.gather(model_input, indices)
+shuffled_labels = tf.gather(model_labels, indices)
+model_probs = aslan_model.predict(np.reshape(shuffled_inputs[:10], (-1, 28, 28)))
 
-# visualize_results(model_input[:10], model_probs, model_labels[:10])
+visualize_results(shuffled_inputs[:10], model_probs, shuffled_labels[:10])
