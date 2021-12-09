@@ -27,7 +27,7 @@ def get_data(file_path):
         csv_data = list(reader(file))
 
         num_samples = len(csv_data)
-        inputsVector = np.empty([num_samples, 100 * 100])
+        inputsVector = np.empty([num_samples, 784])
         labelsVector = np.empty([num_samples])
         is_header = True
 
@@ -47,7 +47,7 @@ def get_data(file_path):
 
 def image_to_np_array(file_path): 
     image = Image.open(file_path).convert('L') # convert to grayscale
-    image = image.resize((100, 100), resample=Image.BICUBIC)
+    image = image.resize((28, 28), resample=Image.BICUBIC)
     data = np.asarray(image)
     return data
 

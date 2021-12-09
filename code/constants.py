@@ -1,5 +1,5 @@
 
-mnist_dimensions = 100
+mnist_dimensions = 28
 sample_dimensions = mnist_dimensions * 14
 
 # include j and z to prevent crashes

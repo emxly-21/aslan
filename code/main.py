@@ -88,6 +88,7 @@ if __name__ == '__main__':
     test_inputs = shuffled_inputs[-2000:]
     test_labels = shuffled_labels[-2000:]
 
+
     losses = []
     train_accuracies = []
     test_accuracies = []

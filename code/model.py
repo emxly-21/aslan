@@ -32,7 +32,7 @@ class Model(tf.keras.Model):
         
 
         # TowardsDataScience Implementation
-        self.model.add(Reshape((100, 100, 1)))
+        self.model.add(Reshape((28, 28, 1)))
 
         self.model.add(Conv2D(64, (3, 3), activation="relu"))
         self.model.add(BatchNormalization())
