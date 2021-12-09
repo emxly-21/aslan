@@ -1,8 +1,11 @@
 
+<<<<<<< HEAD
 cur_letter = "c"
 project_dir = "/Users/em/2021-2022/F21/CSCI 1470/aslan/"
 sample_interval = 250
 
+=======
+>>>>>>> 29668f75f5a7cfdf48c3af1e1af7521a48a84ac3
 mnist_dimensions = 28
 sample_dimensions = mnist_dimensions * 14
 MIN_ACCURACY_THRESHOLD = 0.001

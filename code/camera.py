@@ -5,6 +5,8 @@ import cv2 as cv
 from constants import *
 
 
+
+
 def handle_frame(frame): 
     frame = cv.flip(frame, 1)
 

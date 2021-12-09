@@ -5,7 +5,7 @@ import numpy as np
 import random
 import math
 from model import Model
-from preprocess import get_data, get_data_2
+from preprocess import get_data, get_data_2, get_data_3
 
 def train(model, train_inputs, train_labels):
     indices = tf.random.shuffle(np.arange(len(train_inputs)))
@@ -16,14 +16,11 @@ def train(model, train_inputs, train_labels):
     losses = []
     accuracies = []
     while batch < len(shuffled_inputs):
-        print('1')
         flipped = shuffled_inputs[batch:batch + model.batch_size]
         one_hot_labels = tf.one_hot(tf.cast(shuffled_labels[batch:batch + model.batch_size], tf.uint8), 26, axis=1)
-        print('2')
         with tf.GradientTape() as tape:
             predictions = model.call(flipped)
             loss = model.loss(predictions, one_hot_labels)
-        print('3')
         gradients = tape.gradient(loss, model.trainable_variables)
         model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
         accuracy += model.accuracy(predictions, one_hot_labels)
@@ -78,7 +75,7 @@ if __name__ == '__main__':
     #test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
 
     # Second dataset
-    inputs, labels = get_data_2()
+    inputs, labels = get_data_3()
     indices = tf.random.shuffle(np.arange(len(inputs)))
     shuffled_inputs = tf.gather(inputs, indices)
     shuffled_labels = tf.gather(labels, indices)
@@ -87,6 +84,7 @@ if __name__ == '__main__':
     train_labels = shuffled_labels[:-2000]
     test_inputs = shuffled_inputs[-2000:]
     test_labels = shuffled_labels[-2000:]
+
 
     losses = []
     train_accuracies = []
