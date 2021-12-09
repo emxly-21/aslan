@@ -19,8 +19,8 @@ def handle_frame(frame):
 
     cropped_frame = frame[frame_y_start:frame_y_end, frame_x_start:frame_x_end, :]
     gray = cv.cvtColor(cropped_frame, cv.COLOR_BGR2GRAY)
-    gray = cv.resize(gray, (mnist_dimensions, mnist_dimensions))
-    grayPixelated = cv.resize(gray, (sample_dimensions, sample_dimensions))
+    gray = cv.resize(gray, (mnist_dimensions, mnist_dimensions), resample=Image.BICUBIC)
+    grayPixelated = cv.resize(gray, (sample_dimensions, sample_dimensions), resample=Image.BICUBIC)
     cv.imshow('grayPixelated', grayPixelated)
     gray = np.reshape(gray, (1, mnist_dimensions, mnist_dimensions))
     gray = gray / 255
