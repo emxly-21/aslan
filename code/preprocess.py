@@ -47,7 +47,7 @@ def get_data(file_path):
 
 def image_to_np_array(file_path): 
     image = Image.open(file_path).convert('L') # convert to grayscale
-    image = image.resize((28, 28), resample=Image.BICUBIC)
+    image = image.resize((28, 28), resample=Image.BILINEAR)
     data = np.asarray(image)
     return data
 

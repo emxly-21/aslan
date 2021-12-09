@@ -6,7 +6,7 @@ from constants import *
 import os
 import uuid
 
-def handle_frame(frame): 
+def handle_frame(frame, count): 
     frame = cv.flip(frame, 1)
 
     # get the center 28 by 28 pixels
@@ -28,7 +28,7 @@ def handle_frame(frame):
     cv.imwrite(filename, small_cropped_frame)
 
     cv.rectangle(frame,(frame_x_start,frame_y_start),(frame_x_end,frame_y_end),(0,255,0),3)
-    #  cv.putText(frame, text, (50,500), cv.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv.LINE_AA)
+    cv.putText(frame, str(count), (50,500), cv.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2, cv.LINE_AA)
 
     # Display the resulting frame
     cv.imshow('frame', frame)
@@ -48,6 +48,7 @@ if __name__ == '__main__':
         print("Cannot open camera")
         exit()
 
+    count = 0
     while True:
         ret, frame = cap.read()
 
@@ -55,7 +56,8 @@ if __name__ == '__main__':
             print("Can't receive frame (stream end?). Exiting ...")
             break
 
-        handle_frame(frame)
+        handle_frame(frame, count)
+        count += 1
 
         if cv.waitKey(sample_interval) == ord('q'):
         #  if cv.waitKey(1000) == ord('q'):
