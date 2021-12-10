@@ -14,7 +14,7 @@ class Model(tf.keras.Model):
             decay_steps=10000,
             decay_rate=0.95)
         self.optimizer = tf.keras.optimizers.Adam(learning_rate=self.lrdecay)
-        self.model = tf.keras.models.load_model('../model_100/')
+        self.model = Sequential()
 
         # ScienceDirect Implementation
         
@@ -32,7 +32,7 @@ class Model(tf.keras.Model):
         
 
         # TowardsDataScience Implementation
-        '''self.model.add(Reshape((28, 28, 1)))
+        self.model.add(Reshape((28, 28, 1)))
 
         self.model.add(Conv2D(64, (3, 3), activation="relu"))
         self.model.add(BatchNormalization())
@@ -46,7 +46,7 @@ class Model(tf.keras.Model):
         self.model.add(BatchNormalization())
         self.model.add(Dense(256, activation="relu"))
         self.model.add(BatchNormalization())
-        self.model.add(Dense(26, activation="softmax"))'''
+        self.model.add(Dense(26, activation="softmax"))
 
 
     def call(self, inputs):

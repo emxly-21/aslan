@@ -23,10 +23,10 @@ def train(model, train_inputs, train_labels):
             loss = model.loss(predictions, one_hot_labels)
         gradients = tape.gradient(loss, model.trainable_variables)
         model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
-        accuracy += model.accuracy(predictions, one_hot_labels)
+        accuracy += model.accuracy(predictions, one_hot_labels) / len(train_inputs) * model.batch_size
         batch += model.batch_size
 
-        print(f'Loss: {str(loss.numpy())}', end='\r')
+        print(f'Loss: {str(loss.numpy())}, Accuracy: {str(accuracy.numpy())}', end='\r')
         losses.append(loss)
         accuracies.append(accuracy)
 
@@ -71,34 +71,34 @@ if __name__ == '__main__':
     model = Model()
 
     # First dataset
-    #train_inputs, train_labels = get_data("../data/sign_mnist_train.csv")
-    #test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
+    train_inputs, train_labels = get_data("../data/sign_mnist_train.csv")
+    test_inputs, test_labels = get_data("../data/sign_mnist_test.csv")
 
     # Second dataset
-    inputs, labels = get_data_3()
-    #train_inputs = train_inputs.reshape(-1, 28, 28)
-    #test_inputs = test_inputs.reshape(-1, 28, 28)
-    #print(inputs.shape, train_inputs.shape, test_inputs.shape)
-    #all_inputs = np.concatenate((inputs, train_inputs, test_inputs))
-    #all_labels = np.concatenate((labels, train_labels, test_labels))
-    indices = tf.random.shuffle(np.arange(len(inputs)))
-    shuffled_inputs = tf.gather(inputs, indices)
-    shuffled_labels = tf.gather(labels, indices)
+    inputs, labels = get_data_2()
+    train_inputs = train_inputs.reshape(-1, 28, 28)
+    test_inputs = test_inputs.reshape(-1, 28, 28)
+
+    # Combine datasets
+    all_inputs = np.concatenate((inputs, train_inputs, test_inputs))
+    all_labels = np.concatenate((labels, train_labels, test_labels))
+    indices = tf.random.shuffle(np.arange(len(all_inputs)))
+    shuffled_inputs = tf.gather(all_inputs, indices)
+    shuffled_labels = tf.gather(all_labels, indices)
 
     train_inputs = shuffled_inputs[:-2000]
     train_labels = shuffled_labels[:-2000]
-    test_inputs = shuffled_inputs[:]
-    test_labels = shuffled_labels[:]
-
+    test_inputs = shuffled_inputs[-2000:]
+    test_labels = shuffled_labels[-2000:]
 
     losses = []
     train_accuracies = []
     test_accuracies = []
-    for epoch in range(20):
+    for epoch in range(18):
         print(f'Epoch {epoch + 1}:')
-        #loss, acc = train(model, train_inputs, train_labels)
-        #losses += loss
-        #train_accuracies += [acc]
+        loss, acc = train(model, train_inputs, train_labels)
+        losses += loss
+        train_accuracies += acc
         test_accuracy = test(model, test_inputs, test_labels).numpy()
         test_accuracies.append(test_accuracy)
         print(f'\nTest Accuracy: {test_accuracy}')
