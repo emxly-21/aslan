@@ -74,7 +74,7 @@ if __name__ == '__main__':
         handle_frame(frame)
 
         #  if cv.waitKey(200) == ord('q'):
-        if cv.waitKey(1000) == ord('q'):
+        if cv.waitKey(sample_interval) == ord('q'):
             break
 
     # When everything done, release the capture

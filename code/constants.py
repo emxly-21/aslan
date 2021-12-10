@@ -1,7 +1,7 @@
 
 cur_letter = "y"
 project_dir = "/Users/em/2021-2022/F21/CSCI 1470/aslan/"
-sample_interval = 250
+sample_interval = 50
 
 mnist_dimensions = 28
 sample_dimensions = mnist_dimensions * 14
