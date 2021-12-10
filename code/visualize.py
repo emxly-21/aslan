@@ -91,7 +91,7 @@ aslan_kaggle_model = tf.keras.models.load_model('../model_kaggle/')
 aslan_model = tf.keras.models.load_model('../model/')
 aslan_combo_model = tf.keras.models.load_model('../model_100/')
 
-model_input, model_labels = get_data_3()
+model_input, model_labels = get_data("../data/sign_mnist_test.csv")
 
 indices = tf.random.shuffle(np.arange(len(model_input)))
 shuffled_inputs = tf.gather(model_input, indices)
