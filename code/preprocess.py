@@ -136,7 +136,7 @@ def get_data_3():
     inputsVector = []
     labelsVector = []
 
-    for letter_index in range(3): 
+    for letter_index in range(26): 
         if letter_index in [9, 25]: # ignore j and z
             continue
 
@@ -144,7 +144,7 @@ def get_data_3():
         letter = chr(letter_index + 97)
         letter_dir = letter + "/"
         for a_dataset_dir in datasets: 
-            a_file_path = "../data/custom_dataset/" + a_dataset_dir + letter_dir
+            a_file_path = "../letters10/" + a_dataset_dir + letter_dir
             for a_file in os.listdir(a_file_path): 
                 #  image = Image.open(file_path)
 
