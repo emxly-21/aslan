@@ -144,7 +144,11 @@ def get_data_3():
         letter = chr(letter_index + 97)
         letter_dir = letter + "/"
         for a_dataset_dir in datasets: 
+<<<<<<< HEAD
             a_file_path = "../custom_dataset/" + a_dataset_dir + letter_dir
+=======
+            a_file_path = "../letters10/" + a_dataset_dir + letter_dir
+>>>>>>> 47ef2ee0c3d07242260f618d7b2f544335da22a9
             for a_file in os.listdir(a_file_path): 
                 #  image = Image.open(file_path)
 

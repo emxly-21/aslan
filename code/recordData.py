@@ -37,7 +37,7 @@ def handle_frame(frame, count):
 if __name__ == '__main__':
 
     cap = cv.VideoCapture(0)
-    absolute_path = project_dir + "custom_dataset/A/" + cur_letter + "/"
+    absolute_path = project_dir + "letters10/A/" + cur_letter + "/"
 
     if not os.path.exists(absolute_path): 
         os.makedirs(absolute_path)
